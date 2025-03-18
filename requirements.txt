@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==5.1.7
+django-allauth==65.5.0
+django-browser-reload==1.18.0
+django-crispy-forms==2.3
+django-filter==25.1
+django-tailwind==3.8.0
+sqlparse==0.5.3
