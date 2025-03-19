@@ -14,3 +14,34 @@ class Job(models.Model):
     posted_at= models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+class Profile (models.Model):
+    ROLE_CHOICES =[
+        ('calendar', 'Calendar'),
+        ('employer', 'Employer'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    company_name = models.CharField(max_length=255, blank=True, null=True)
+    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
+
+
+    def __str__(self):
+        return self.user.username
+
+class JobApplication(models.Model):
+    job = models.ForeignKey('Job', on_delete=models.CASCADE)
+    candidate = models.ForeignKey(User, on_delete=models.CASCADE)
+    resume = models.FileField(upload_to='applications/', blank=True, null=True)
+    cover_letter = models.TextField(blank=True)
+    status = models.CharField(max_length=20, choices=[
+        ('applied', 'Applied'),
+        ('reviewed', 'Reviewed'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+
+    ], default='applied')
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.candidate.username} - {self.job.title}"

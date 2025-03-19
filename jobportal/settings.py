@@ -40,10 +40,13 @@ INSTALLED_APPS = [
     'jobs',
     'tailwind',
     'django_browser_reload', 
+    'crispy_forms',
+    # auth
+    'django.contrib.sites',  
     'allauth',
-    'crispy_forms'
+    'allauth.account',
+    'allauth.socialaccount',
 ]
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -135,3 +138,10 @@ AUTHENTICATION_BACKEND =[
 
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL ='/'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_VERIFICATION_METHOD ='username'
+ACCOUNT_EMAIL_REQUIRED = True
+

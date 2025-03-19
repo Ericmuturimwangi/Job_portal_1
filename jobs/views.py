@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from .models import Job
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Job, JobApplication
 from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.decorators import login_required
+from .forms import JobApplicationForm
 
 
 def job_list(request):
@@ -8,3 +10,20 @@ def job_list(request):
     return render(request, 'jobs/job_list.html', {'jobs':jobs})
 
 
+@login_required
+def apply_for_job(request, job_id):
+    job = get_object_or_404(Job, id = job_id)
+
+    if request.method == 'POST':
+        form = JobApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            application =form.save(commit=False)
+            application.job = job
+            application.candidate = request.user
+            application.save ()
+            return redirect('job_list')
+        
+        else:
+            form = JobApplicationForm()
+
+        return render(request, 'jobs/apply_for_job.html', {'form':form, 'job': job})
