@@ -27,3 +27,12 @@ def apply_for_job(request, job_id):
             form = JobApplicationForm()
 
         return render(request, 'jobs/apply_for_job.html', {'form':form, 'job': job})
+
+def employer_dashboard(request):
+    if request.user.profile.role != 'emploer':
+        return redirect ('job_list')
+    
+
+    applications  = JobApplication.objects.filter(job_user = request.user)
+    return render (request, 'jobs/employer_dashboard.html', {'applications':applications})
+
