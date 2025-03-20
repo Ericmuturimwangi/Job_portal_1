@@ -17,7 +17,7 @@ class Job(models.Model):
 
 class Profile (models.Model):
     ROLE_CHOICES =[
-        ('employee', 'Employee'),
+        ('candidate', 'Candidate'),
         ('employer', 'Employer'),
     ]
 

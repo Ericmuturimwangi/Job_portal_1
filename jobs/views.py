@@ -37,6 +37,15 @@ def employer_dashboard(request):
     
 
     applications  = JobApplication.objects.filter(job__user = request.user)
-    print(f"Applications for user {request.user}: {applications}")
+    
     return render (request, 'jobs/employer_dashboard.html', {'applications':applications})
 
+@login_required
+def applicant_dashboard(request):
+    if not hasattr(request.user, 'profile'):
+        return redirect('create_profile')
+    if request.user.profile.role != 'candidate':
+        return redirect ('employer_dashboard')
+    
+    applications = JobApplication.objects.filter(candidate=request.user)
+    return render(request, 'jobs/applicant_dashboard.html', {'applications': applications})
