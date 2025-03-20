@@ -1,29 +1,24 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-
-<h2>Job APplications </h2>
+<h2>Job Applications</h2>
 <table>
     <tr>
-        <th> Candidate </th>
-        <th> Job </th>
-        <th> Resume </th>
-        <th> Status </th>
+        <th>Candidate</th>
+        <th>Job</th>
+        <th>Resume</th>
+        <th>Status</th>
     </tr>
 
     {% for application in applications %}
-
     <tr> 
-        <td> {{ application.candidate.username }} </td>
-
-        <td> {{ application.job.title }} </td>
-        <td> <a href="{{ application.resume.url }}">View Resume</a></td>
-
-        <td> {{ application.status }} </td>
+        <td>{{ application.candidate.username }}</td>
+        <td>{{ application.job.title }}</td>
+        <td><a href="{{ application.resume.url }}">View Resume</a></td>
+        <td>{{ application.status }}</td>
     </tr>
-
-     {% endfor %} 
-
+    {% empty %}
+    <tr><td colspan="4">No applications available</td></tr>
+    {% endfor %}
 </table>
-{%  endblock %}
+{% endblock %}
