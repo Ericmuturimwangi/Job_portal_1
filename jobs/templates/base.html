@@ -12,9 +12,19 @@
     <header>
         <nav>
             <ul>
-                <li><a href="{% url 'employer_dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'job_list' %}">Job Listings</a></li>
-                {% comment %} <li><a href="{% url 'logout' %}">Logout</a></li> {% endcomment %}
+                {% if user.is_authenticated %}
+                    {% with profile=user.profile %}
+                        {% if profile.role == 'employer' %}
+                            <li><a href="{% url 'employer_dashboard' %}">Employer Dashboard</a></li>
+                        {% elif profile.role == 'candidate' %}
+                            <li><a href="{% url 'applicant_dashboard' %}">Applicant Dashboard</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'job_list' %}">Job Listings</a></li>
+                    {% endwith %}
+                {% else %}
+                    <li><a href="{% url 'account_login' %}">Login</a></li>
+                    <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
