@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Job, JobApplication
+from .models import Job, JobApplication, Message
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.decorators import login_required
 from .forms import JobApplicationForm
+import PyPDF2
 
 
 def job_list(request):
@@ -50,3 +51,33 @@ def applicant_dashboard(request):
     
     applications = JobApplication.objects.filter(candidate=request.user)
     return render(request, 'jobs/applicant_dashboard.html', {'applications': applications})
+
+
+def parse_pdf(file_path):
+    with open (file_path, "rb") as file:
+        reader = PyPDF2.PdfReader(file)
+        text =""
+        for page_num in range(len(reader.pages)):
+            page = reader.pages[page_num]
+            text+= page.extract_text()
+        return text
+    
+@login_required
+def send_message(request, application_id):
+    application= JobApplication.objects.get(id=application_id)
+    if request.method == 'POST':
+        content = request.POST.get("content")
+        message = Message.objects.create (
+            sender = request.user,
+            receiver= application.job.user,
+            job_application = application,
+            content = content,
+        )
+        return redirect('message_list', application_id = application_id)
+    return render(request, 'jobs/send_message.html', {'application': application})
+
+@login_required
+def message_list(request, application_id):
+    application =  JobApplication.objects.get(id=application_id)
+    messages = Message.objects.filter(job_application=application)
+    return render(request, 'jobs/message_list.html', {'messages':messages, 'application':application})
