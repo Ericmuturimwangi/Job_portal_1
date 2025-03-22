@@ -13,7 +13,7 @@ def job_list(request):
 @login_required
 def apply_for_job(request, job_id):
     job = get_object_or_404(Job, id = job_id)
-
+    form = JobApplicationForm()
     if request.method == 'POST':
         form = JobApplicationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,7 +26,8 @@ def apply_for_job(request, job_id):
         else:
             form = JobApplicationForm()
 
-        return render(request, 'jobs/apply_for_job.html', {'form':form, 'job': job})
+    return render(request, 'jobs/apply_for_job.html', {'form':form, 'job': job})
+    
 @login_required
 def employer_dashboard(request):
     if not hasattr(request.user, 'profile'):
