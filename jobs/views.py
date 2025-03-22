@@ -62,16 +62,22 @@ def parse_pdf(file_path):
             text+= page.extract_text()
         return text
     
-
+@login_required
 def send_message(request, application_id):
     application= JobApplication.objects.get(id=application_id)
     if request.method == 'POST':
         content = request.POST.get("content")
         message = Message.objects.create (
             sender = request.user,
-            receiver= application.applicant,
+            receiver= application.job.user,
             job_application = application,
             content = content,
         )
         return redirect('message_list', application_id = application_id)
     return render(request, 'jobs/send_message.html', {'application': application})
+
+@login_required
+def message_list(request, application_id):
+    application =  JobApplication.objects.get(id=application_id)
+    messages = Message.objects.filter(job_application=application)
+    return render(request, 'jobs/message_list.html', {'messages':messages, 'application':application})

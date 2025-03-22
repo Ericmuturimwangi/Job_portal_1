@@ -46,7 +46,7 @@ class Profile (models.Model):
 class JobApplication(models.Model):
     job = models.ForeignKey('Job', on_delete=models.CASCADE)
     candidate = models.ForeignKey(User, on_delete=models.CASCADE)
-    resume = models.FileField(upload_to='applications/', blank=True, null=True)
+    resume = models.FileField(upload_to='media/applications/', blank=True, null=True)
     cover_letter = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=[
         ('applied', 'Applied'),

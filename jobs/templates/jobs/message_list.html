@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Messages for Job Application: {{ application.job.title }}</h2>
+
+  <div>
+    {% for message in messages %}
+      <div class="message">
+        <p><strong>{{ message.sender.username }}</strong> to <strong>{{ message.receiver.username }}</strong></p>
+        <p>{{ message.content }}</p>
+        <small>Sent at: {{ message.sent_at }}</small>
+      </div>
+    {% endfor %}
+  </div>
+
+  <a href="{% url 'send_message' application.id %}" class="btn btn-primary mt-3">Send a New Message</a>
+{% endblock %}

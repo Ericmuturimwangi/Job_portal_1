@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3> send message to {{ application.appplicant.user.username }} </h3>
+<form method="post">
+    {% csrf_token %}
+  
+    <div class ="form-group">
+        <label for ="content" > message</label>
+        <textarea class="form-control" name="content" id="content" rows="5" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send</button>
+    </form> 
+
+    <a href="{% url 'applicant_dashboard' %}">Back to dashboard</a>
+    {% endblock %}
