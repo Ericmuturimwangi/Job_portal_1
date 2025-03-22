@@ -1,1 +1,18 @@
-jobs
+{% extends 'base.html' %}
+
+{% block title %} Job Listing {%  endblock %}
+{% block content %}
+{% for job in jobs %}
+    <div class="job">
+        <h3> {{ job.title }} </h3>
+        <p> <strong>Company</strong> {{ job.company }} </p>
+        <p> <strong> Location </strong> {{  job.location}} </p>
+        <p> <strong> Salary </strong> {{ job.salary}} </p>
+        <a href = "{% url 'apply_for_job' job.id %}"> Apply <a/>
+
+        </div>
+
+    {% empty %} 
+    <p> No jobs available at the moment </p>
+    {% endfor %}
+    {% endblock %}
