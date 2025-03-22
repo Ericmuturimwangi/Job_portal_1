@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Job, JobApplication
+from .models import Job, JobApplication, Message
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.decorators import login_required
 from .forms import JobApplicationForm
 import PyPDF2
+
 
 def job_list(request):
     jobs = Job.objects.all()
@@ -61,3 +62,16 @@ def parse_pdf(file_path):
             text+= page.extract_text()
         return text
     
+
+def send_message(request, application_id):
+    application= JobApplication.objects.get(id=application_id)
+    if request.method == 'POST':
+        content = request.POST.get("content")
+        message = Message.objects.create (
+            sender = request.user,
+            receiver= application.applicant,
+            job_application = application,
+            content = content,
+        )
+        return redirect('message_list', application_id = application_id)
+    return render(request, 'jobs/send_message.html', {'application': application})
