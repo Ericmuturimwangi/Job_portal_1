@@ -3,7 +3,7 @@ from .models import Job, JobApplication
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.decorators import login_required
 from .forms import JobApplicationForm
-
+import PyPDF2
 
 def job_list(request):
     jobs = Job.objects.all()
@@ -50,3 +50,14 @@ def applicant_dashboard(request):
     
     applications = JobApplication.objects.filter(candidate=request.user)
     return render(request, 'jobs/applicant_dashboard.html', {'applications': applications})
+
+
+def parse_pdf(file_path):
+    with open (file_path, "rb") as file:
+        reader = PyPDF2.PdfReader(file)
+        text =""
+        for page_num in range(len(reader.pages)):
+            page = reader.pages[page_num]
+            text+= page.extract_text()
+        return text
+    
