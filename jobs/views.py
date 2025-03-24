@@ -59,10 +59,14 @@ def employer_dashboard(request):
 def applicant_dashboard(request):
     if not hasattr(request.user, 'profile'):
         return redirect('create_profile')
+    
     if request.user.profile.role != 'candidate':
         return redirect ('employer_dashboard')
     
-    applications = JobApplication.objects.filter(candidate=request.user)
+    applications = cache.get(f'candidate_{request.user.id}_applications')
+    if not applications:
+        applications = JobApplication.objects.filter(candidate=request.user)
+        cache.set(f'candidate_{request.user.id}_applications', applications, timeout=900)
     return render(request, 'jobs/applicant_dashboard.html', {'applications': applications})
 
 
