@@ -4,10 +4,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.decorators import login_required
 from .forms import JobApplicationForm
 import PyPDF2
-
+from django.core.cache import cache
 
 def job_list(request):
-    jobs = Job.objects.all()
+    jobs = cache.get('job_list')
+    if not jobs:
+        jobs = Job.objects.all()
+        cache.set('job_list', jobs, timeout=500)
+
     return render(request, 'jobs/job_list.html', {'jobs':jobs})
 
 
