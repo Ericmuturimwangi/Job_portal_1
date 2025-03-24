@@ -13,22 +13,28 @@
         <nav>
             <ul>
                 {% if user.is_authenticated %}
+                    <!-- Sign Out link -->
+                    <li><a href="{% url 'account_logout' %}" class="btn btn-danger">Sign Out</a></li>
+                    
+                    <!-- Role-based dashboard links -->
                     {% with profile=user.profile %}
                         {% if profile.role == 'employer' %}
                             <li><a href="{% url 'employer_dashboard' %}">Employer Dashboard</a></li>
                         {% elif profile.role == 'candidate' %}
                             <li><a href="{% url 'applicant_dashboard' %}">Applicant Dashboard</a></li>
                         {% endif %}
-                        <li><a href="{% url 'job_list' %}">Job Listings</a></li>
                     {% endwith %}
+                    <!-- Common Job Listings link -->
+                    <li><a href="{% url 'job_list' %}">Job Listings</a></li>
                 {% else %}
+                    <!-- Login and Sign Up links -->
                     <li><a href="{% url 'account_login' %}">Login</a></li>
                     <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
                 {% endif %}
             </ul>
         </nav>
     </header>
-
+    
     <div class="container">
         {% block content %}
         <!-- Main content will be injected here -->

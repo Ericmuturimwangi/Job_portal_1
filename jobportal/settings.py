@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from allauth.account import app_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,7 +19,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+LOGOUT_REDIRECT_URL = 'account_login'
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -134,8 +135,8 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL ='/'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_VERIFICATION_METHOD ='username'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_LOGIN_METHODS = [app_settings.LoginMethod.USERNAME, app_settings.LoginMethod.EMAIL]
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
 
 # TAILWIND_APP_NAME = 'tailwind'
 
