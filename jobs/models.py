@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+
+from django.utils import timezone
 class Job(models.Model):
     title = models.CharField(max_length=255)
     company =models.CharField(max_length=255)
@@ -70,4 +72,15 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message from {self.sender.username} to {self.receiver.username} ({self.sent_at})"
+    
+
+class JobPerformance(models.Model):
+    job = models.ForeignKey('Job', on_delete=models.CASCADE, related_name='performances')
+    views = models.PositiveIntegerField(default=0)
+    applications = models.PositiveIntegerField(default=0)
+    clicks = models.PositiveIntegerField(default=0)
+    date = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return f"Performance data for {self.job.title} on {self.date}"
     

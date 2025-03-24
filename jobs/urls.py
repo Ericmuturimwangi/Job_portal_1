@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import job_list, apply_for_job, employer_dashboard, applicant_dashboard, send_message, message_list
+from .views import job_list, apply_for_job, employer_dashboard, applicant_dashboard, send_message, message_list, JobListView
 
 urlpatterns = [
     path('', job_list, name='job_list'),
@@ -11,6 +11,7 @@ urlpatterns = [
     path('messages/<int:application_id>/', message_list, name='message_list'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('signup/', auth_views.LoginView.as_view(), name='signup'),
+    path('api/jobs/', JobListView.as_view(), name='job_list_api'),
 
 ]
  
