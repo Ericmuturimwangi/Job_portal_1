@@ -122,12 +122,11 @@ def track_job_performance(job_id, action_type):
 def job_detail_view(request, job_id):
     track_job_performance(job_id, "view")
     job = get_object_or_404(Job, id = job_id)
-    return render(request, 'job_detail.html', {'job': job})
+    return render(request, 'jobs/job_detail.html', {'job': job})
 
 def job_performance_dashboard(request):
     performances = JobPerformance.objects.all().order_by('-date')
     return render (request, 'performance_dashboard.html', {'performances':performances})
-
 
 class JobListView(APIView):
 
