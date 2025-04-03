@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %} Add New Job {% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">Add New Job Listing</h1>
+
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-200">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label for="title" class="block text-gray-700 font-semibold mb-2">Job Title</label>
+                <input type="text" name="title" id="title" value="{{ form.title.value }}" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>
+                {% if form.title.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.title.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="company" class="block text-gray-700 font-semibold mb-2">Company Name</label>
+                <input type="text" name="company" id="company" value="{{ form.company.value }}" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>
+                {% if form.company.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.company.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="location" class="block text-gray-700 font-semibold mb-2">Location</label>
+                <input type="text" name="location" id="location" value="{{ form.location.value }}" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>
+                {% if form.location.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.location.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="salary" class="block text-gray-700 font-semibold mb-2">Salary</label>
+                <input type="number" step="0.01" name="salary" id="salary" value="{{ form.salary.value }}" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
+                {% if form.salary.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.salary.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="employment_type" class="block text-gray-700 font-semibold mb-2">Employment Type</label>
+                <select name="employment_type" id="employment_type" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>
+                    <option value="Full-Time" {% if form.employment_type.value == "Full-Time" %}selected{% endif %}>Full-Time</option>
+                    <option value="Part-Time" {% if form.employment_type.value == "Part-Time" %}selected{% endif %}>Part-Time</option>
+                    <option value="Contract" {% if form.employment_type.value == "Contract" %}selected{% endif %}>Contract</option>
+                </select>
+                {% if form.employment_type.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.employment_type.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="industry" class="block text-gray-700 font-semibold mb-2">Industry</label>
+                <input type="text" name="industry" id="industry" value="{{ form.industry.value }}" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>
+                {% if form.industry.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.industry.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="experience_level" class="block text-gray-700 font-semibold mb-2">Experience Level</label>
+                <select name="experience_level" id="experience_level" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>
+                    <option value="Entry" {% if form.experience_level.value == "Entry" %}selected{% endif %}>Entry</option>
+                    <option value="Mid" {% if form.experience_level.value == "Mid" %}selected{% endif %}>Mid</option>
+                    <option value="Senior" {% if form.experience_level.value == "Senior" %}selected{% endif %}>Senior</option>
+                </select>
+                {% if form.experience_level.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.experience_level.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="skills_required" class="block text-gray-700 font-semibold mb-2">Skills Required</label>
+                <textarea name="skills_required" id="skills_required" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>{{ form.skills_required.value }}</textarea>
+                {% if form.skills_required.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.skills_required.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 font-semibold mb-2">Job Description</label>
+                <textarea name="description" id="description" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" required>{{ form.description.value }}</textarea>
+                {% if form.description.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.description.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block text-gray-700 font-semibold mb-2">Job Image/Logo (Optional)</label>
+                <input type="file" name="image" id="image" class="w-full p-3 border border-gray-300 rounded-lg">
+                {% if form.image.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.image.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                    Add Job
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

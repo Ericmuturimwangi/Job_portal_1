@@ -1,18 +1,40 @@
 {% extends 'base.html' %}
 
-{% block title %} Job Listing {%  endblock %}
+{% block title %} Job Listings {% endblock %}
+
 {% block content %}
-{% for job in jobs %}
-    <div class="job">
-        <h3> {{ job.title }} </h3>
-        <p> <strong>Company</strong> {{ job.company }} </p>
-        <p> <strong> Location </strong> {{  job.location}} </p>
-        <p> <strong> Salary </strong> {{ job.salary}} </p>
-        <a href = "{% url 'apply_for_job' job.id %}"> Apply <a/>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">Job Listings</h1>
 
+    {% if user.is_authenticated and user.profile.role == "employer" %}
+        <!-- Add Job button for Employers -->
+        <div class="flex justify-end mb-4">
+            <a href="{% url 'add_job' %}" 
+               class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700 transition">
+                + Add Job
+            </a>
         </div>
+    {% endif %}
 
-    {% empty %} 
-    <p> No jobs available at the moment </p>
-    {% endfor %}
-    {% endblock %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for job in jobs %}
+            <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-800">{{ job.title }}</h3>
+                <p class="text-gray-600"><strong>Company:</strong> {{ job.company }}</p>
+                <p class="text-gray-600"><strong>Location:</strong> {{ job.location }}</p>
+                <p class="text-gray-600"><strong>Salary:</strong> {{ job.salary }}</p>
+
+                {% if user.is_authenticated and user.profile.role == "candidate" %}
+                    <!-- Apply Now button for Candidates -->
+                    <a href="{% url 'apply_for_job' job.id %}" 
+                       class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition">
+                       Apply Now
+                    </a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="text-gray-500 text-center col-span-3">No jobs available at the moment</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

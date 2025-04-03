@@ -17,7 +17,7 @@ SECRET_KEY = "django-insecure-7_c3qkd6*d76h88p4!-2&bip_6+zo7!d^*($l#)c$m@!b-h!17
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ "https://jobportal-lilac-chi.vercel.app" , "localhost"]
+ALLOWED_HOSTS = [ "https://jobportal-lilac-chi.vercel.app" , "localhost", "127.0.0.1"]
 
 
 # Application definition

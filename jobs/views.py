@@ -143,4 +143,26 @@ class JobListView(APIView):
             serializer.save()
             return Response (serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+def AddJobView(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+        location = request.POST['location']
+        salary = request.POST['salary']
+        employment_type = request.POST['employment_type']
+        company = request.POST['company']
+
+        job = Job.objects.create(
+            title=title,
+            description=description,
+            location=location,
+            salary=salary,
+            employment_type=employment_type,  
+            company=company,  
+            user=request.user  
+        )
+        return redirect('job_list')
+    
+    return render(request, 'jobs/add_job.html')
         
